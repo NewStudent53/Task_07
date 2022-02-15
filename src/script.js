@@ -2,8 +2,6 @@ import './style.css'
 import * as THREE from 'three'
 import * as dat from 'dat.gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-//import { generateUUID } from 'three/src/math/MathUtils'
-//import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 const gltfLoader1 = new GLTFLoader()
 const gltfLoader2 = new GLTFLoader()
@@ -15,18 +13,6 @@ const gui2 = new dat.GUI()
 const canvas = document.querySelector('canvas.webgl')
 
 const scene = new THREE.Scene()
-
-//The Comet Watcher
-gltfloader3.load('scene3.gltf', (gltf3) => {
-
-    gltf3.scene.scale.set(0.3, 0.3, 0.3)
-    gltf3.scene.rotation.set(0, 3.3, 0)
-
-    gltf3.scene.position.x = 0
-    gltf3.scene.position.y = 0.4
-    gltf3.scene.position.z = 0
-    scene.add(gltf3.scene)
-})
 
 //The Rocket Model
 gltfLoader1.load('scene2.gltf', (gltf2) => {
@@ -46,16 +32,30 @@ gltfLoader2.load('scene.gltf', (gltf) => {
    gltf.scene.scale.set(0.005, 0.005, 0.005)
    gltf.scene.rotation.set(0, 4.7, 0)
     scene.add(gltf.scene)
+
+    tl.to(gltf.scene.rotation, {y: 4.7, duration: 1})
+    tl.to(gltf.scene.scale, {x: 0.2, y: 0.2, z: 0.2, duration: 1}, "-=1")
+    tl.to(gltf.scene.position, { x: .5})
+    tl.to(gltf.scene.rotation, { y: 5.4, duration: 1})
 })
 
+//the BeeModel
+gltfloader3.load('Bee.glb', (gltf3) => {
 
-const geometry = new THREE.TorusGeometry( .7, .2, 16, 100 );
+    gltf3.scene.scale.set(0.025, 0.025, 0.025)
+    gltf3.scene.rotation.set(0, 4.7, 0)
+    gltf3.scene.position.x = 0
+    gltf3.scene.position.y = 0.5
+    gltf3.scene.position.z = 0.25
+
+    scene.add(gltf3.scene)
+})
 
 
 // Lights
 
-const light1 = new THREE.PointLight(0xff0000, 2)
-light1.position.set(2,2,2)
+const light1 = new THREE.PointLight(0xffffff, 2)
+light1.position.set(0,0,0)
 
 scene.add(light1)
 
@@ -65,13 +65,13 @@ scene.add(light1)
 
 
 const light2 = new THREE.PointLight(0xffffff, 1)
-light2.position.set(1,1,1)
+light2.position.set(0,0,0)
 
 scene.add(light2)
 
-    gui2.add(light2.position, 'x').min(-3).max(3).step(0.01)
-    gui2.add(light2.position, 'y').min(-3).max(3).step(0.01)
-    gui2.add(light2.position, 'z').min(-3).max(3).step(0.01)
+    gui2.add(light2.position, 'x').min(-9).max(9).step(0.01)
+    gui2.add(light2.position, 'y').min(-9).max(9).step(0.01)
+    gui2.add(light2.position, 'z').min(-9).max(9).step(0.01)
 
 
 const sizes = {
@@ -94,7 +94,6 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
-
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 0
@@ -112,7 +111,7 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 /**
- * Animate
+ * Animateda//
  */
 
 document.addEventListener('mousemove', onDocumentMouseMove)
@@ -131,16 +130,14 @@ function onDocumentMouseMove(event) {
     mouseY = (event.clientY - windowY)
 }
 
-const clock = new THREE.Clock()
-
 const tick = () =>
 {
     targetX = mouseX * .001
     targetY = mouseY * .001
-    const elapsedTime = clock.getElapsedTime()
 
     // Update objects
-    //sphere.rotation.y = .5 * elapsedTime
+    
+    //gltf.rotation.y = .5 * elapsedTime
     renderer.render(scene, camera)
 
         window.requestAnimationFrame(tick)
