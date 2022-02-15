@@ -1,3 +1,0 @@
---->Assets found on three.js library
--->Need to install node_modules to do the following command...
-->Commands to run the project: npm run dev"# Task-1" 
