@@ -9,13 +9,26 @@ body
 {
     height: 100vh;
     font-family: 'Poppins';
-    background-color: cornsilk;
+    background-color: whitesmoke;
 }
 
 .webgl
 {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     outline: none;
+}
+
+.content {
+    height: 100vh;
+    display: grid;
+    place-items: end;
+}
+
+.h1 {
+    height: 100vh;
+    text-transform: uppercase;
+    place-items: center;
+    color: black;
 }
